@@ -1,21 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Input, InputGroup, InputGroupAddon, InputGroupText, Tooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faClipboard } from '@fortawesome/free-solid-svg-icons';
 
 import ClipboardTooltip from './clipboard_tooltip';
 
-export default function Clipboard() {
-  const [url, setUrl] = useState('');
+interface Props {
+  url: string;
+}
+
+export default function Clipboard(props: Props) {
+  const { url } = props;
   const [copied, setCopied] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const input = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-      setUrl(tabs[0].url || '');
-    });
-  }, []);
 
   const toggleTooltip = () => {
     setTooltipOpen((prevState: boolean) => !prevState);
