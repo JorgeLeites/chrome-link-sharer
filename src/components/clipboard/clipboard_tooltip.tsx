@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
-import { Tooltip } from 'react-bootstrap';
+import React, { Fragment, PropsWithChildren, useEffect } from 'react';
 
-export default React.forwardRef<HTMLDivElement, any>((props, ref) => {
-  const { popper, children } = props;
+interface Props {
+  scheduleUpdate: () => void;
+}
+
+export default function TooltipContent(props: PropsWithChildren<Props>) {
+  const { scheduleUpdate, children } = props;
 
   useEffect(() => {
-    popper.scheduleUpdate();
-  }, [children, popper]);
+    scheduleUpdate();
+  }, [scheduleUpdate, children]);
 
-  return (
-    <Tooltip ref={ref} {...props}>
-      {children}
-    </Tooltip>
-  );
-});
+  return <Fragment>{children}</Fragment>;
+}

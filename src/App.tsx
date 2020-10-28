@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container } from 'reactstrap';
 
 import './App.scss';
 import Clipboard from './components/clipboard/clipboard';
@@ -7,7 +7,7 @@ import Clipboard from './components/clipboard/clipboard';
 function App() {
   return (
     <div className="extension">
-      <Container className="py-4">
+      <Container className="py-5">
         <Clipboard />
       </Container>
     </div>

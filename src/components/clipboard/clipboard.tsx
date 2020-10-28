@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { InputGroup, FormControl, Button, OverlayTrigger } from 'react-bootstrap';
+import { Button, Input, InputGroup, InputGroupAddon, InputGroupText, Tooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faClipboard } from '@fortawesome/free-solid-svg-icons';
+
 import ClipboardTooltip from './clipboard_tooltip';
 
 export default function Clipboard() {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -15,40 +17,48 @@ export default function Clipboard() {
     });
   }, []);
 
+  const toggleTooltip = () => {
+    setTooltipOpen((prevState: boolean) => !prevState);
+    setCopied(false);
+  };
+
   const copyToClipboard = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (input.current) {
       input.current.select();
       document.execCommand('copy');
       event.currentTarget.focus();
       setCopied(true);
+      setTooltipOpen(true);
     }
   };
 
   return (
     <InputGroup className="mt-3">
-      <InputGroup.Prepend>
-        <InputGroup.Text>
+      <InputGroupAddon addonType="prepend">
+        <InputGroupText>
           <FontAwesomeIcon icon={faLink} />
-        </InputGroup.Text>
-      </InputGroup.Prepend>
+        </InputGroupText>
+      </InputGroupAddon>
 
-      <FormControl ref={input} id="page-url" readOnly value={url} />
+      <Input innerRef={input} type="text" name="page-url" id="page-url" value={url} />
 
-      <InputGroup.Append>
-        <OverlayTrigger
-          onExit={() => setCopied(false)}
+      <InputGroupAddon addonType="append">
+        <Button id="clipboard-button" color="primary" onClick={copyToClipboard}>
+          <FontAwesomeIcon icon={faClipboard} />
+        </Button>
+        <Tooltip
+          isOpen={tooltipOpen}
           placement="top"
-          overlay={
-            <ClipboardTooltip id="tooltip-copy">
-              {copied ? 'Copied!' : 'Copy to clipboard'}
-            </ClipboardTooltip>
-          }
+          target="clipboard-button"
+          toggle={toggleTooltip}
         >
-          <Button onClick={copyToClipboard}>
-            <FontAwesomeIcon icon={faClipboard} />
-          </Button>
-        </OverlayTrigger>
-      </InputGroup.Append>
+          {(props) => (
+            <ClipboardTooltip scheduleUpdate={props.scheduleUpdate}>
+              {copied ? 'Copied' : 'Copy to clipboard'}
+            </ClipboardTooltip>
+          )}
+        </Tooltip>
+      </InputGroupAddon>
     </InputGroup>
   );
 }
