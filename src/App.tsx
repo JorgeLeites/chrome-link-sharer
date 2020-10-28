@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
+import QRCode from 'qrcode.react';
+
+import Clipboard from './components/clipboard/clipboard';
 
 function App() {
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+      setUrl(tabs[0].url || '');
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="extension">
+      <Container className="p-4 text-center">
+        <QRCode size={256} value={url} />
+        <Clipboard url={url} />
+      </Container>
     </div>
   );
 }
