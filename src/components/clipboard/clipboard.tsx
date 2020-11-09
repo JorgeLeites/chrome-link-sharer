@@ -6,7 +6,7 @@ import { faLink, faClipboard } from '@fortawesome/free-solid-svg-icons';
 import ClipboardTooltip from './clipboard_tooltip';
 
 interface Props {
-  url: string;
+  url?: string;
 }
 
 export default function Clipboard(props: Props) {
@@ -38,7 +38,14 @@ export default function Clipboard(props: Props) {
         </InputGroupText>
       </InputGroupAddon>
 
-      <Input innerRef={input} type="text" name="page-url" id="page-url" value={url} />
+      <Input
+        readOnly
+        innerRef={input}
+        type="text"
+        name="page-url"
+        id="page-url"
+        value={url || ''}
+      />
 
       <InputGroupAddon addonType="append">
         <Button id="clipboard-button" color="primary" onClick={copyToClipboard}>

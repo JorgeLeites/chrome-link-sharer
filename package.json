@@ -15,7 +15,7 @@
     "@types/react-dom": "^16.9.8",
     "bootstrap": "^4.5.3",
     "node-sass": "^4.14.1",
-    "qrcode.react": "^1.0.0",
+    "qrcode": "^1.4.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
@@ -28,7 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.{scss,tsx,ts}"
+    "format": "prettier --write src/**/*.{scss,tsx,ts}",
+    "watch": "cra-build-watch"
   },
   "eslintConfig": {
     "extends": [
@@ -50,8 +51,9 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.125",
-    "@types/qrcode.react": "^1.0.1",
+    "@types/qrcode": "^1.3.5",
     "@types/reactstrap": "^8.5.2",
+    "cra-build-watch": "^3.4.0",
     "prettier": "^2.1.2"
   }
 }
